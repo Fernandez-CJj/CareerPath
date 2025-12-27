@@ -1,0 +1,127 @@
+.simple-flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.simple-label {
+  min-width: 160px;
+}
+.simple-resume {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.simple {
+  width: 694px;
+  min-height: 1223px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: white;
+  margin-bottom: 50px;
+}
+
+.simple-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.simple-full-name {
+  font-size: 28pt;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.simple-personal-details {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  color: rgb(0, 0, 0);
+  font-size: 11pt;
+  align-items: center;
+}
+
+.vertical-line {
+  width: 1px; /* line thickness */
+  height: 40px; /* line height */
+  background-color: #c5c5c5; /* line color */
+}
+
+.simple-email,
+.simple-address,
+.simple-ontact-number {
+  max-width: 200px;
+}
+
+.divider {
+  width: 100%;
+  height: 3px;
+  background-color: #c5c5c5; /* line color */
+  margin-bottom: 30px;
+}
+
+.simple-line {
+  width: 100%;
+  height: 1px;
+  background-color: #c5c5c5; /* line color */
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.simple-summary,
+.simple-career,
+.simple-education,
+.simple-skills,
+.simple-reference {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+}
+.simple-summary-content,
+.simple-career-content,
+.simple-education-content {
+  margin-top: 2px;
+}
+
+.simple-label {
+  font-size: 16pt;
+  font-weight: 600;
+  color: #151515;
+}
+
+.simple-summary-content {
+  font-size: 11pt;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.simple-course {
+  font-size: 11pt;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.simple-education,
+.simple-education-2 {
+  margin: 0;
+}
+
+.simple-career-history-2 {
+  margin-top: 10px;
+}
+
+.simple-skills-content {
+  font-size: 11pt;
+  line-height: 1.5;
+  font-weight: 500;
+}

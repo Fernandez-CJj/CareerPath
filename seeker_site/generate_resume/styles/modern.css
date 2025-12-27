@@ -1,0 +1,189 @@
+.modern-resume {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modern {
+  width: 794px;
+  min-height: 1223px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 50px;
+  background-color: white;
+}
+
+.modern-header {
+  width: 100%;
+  height: 150px;
+  background-color: #0c4a86;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.full-name {
+  color: white;
+  font-size: 28pt;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.personal-details {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  color: white;
+  font-size: 11pt;
+  align-items: center;
+}
+
+.vertical-line {
+  width: 1px; /* line thickness */
+  height: 40px; /* line height */
+  background-color: #c5c5c5; /* line color */
+}
+
+.email,
+.address,
+.contact-number {
+  max-width: 200px;
+}
+.main-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.resume-left-section {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  margin-right: 44px;
+}
+
+.resume-right-section {
+  width: 500px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label,
+.reference-label {
+  font-size: 16pt;
+  font-weight: 600;
+  color: #151515;
+}
+
+.skills {
+  margin-bottom: 11px;
+  font-size: 11pt;
+}
+
+.key-skills {
+  margin-bottom: 50px;
+}
+
+.education-2 {
+  margin-top: 20px;
+}
+
+.course {
+  font-weight: 600;
+  font-size: 11pt;
+  margin-bottom: 5px;
+}
+
+.institution {
+  font-size: 11pt;
+  margin-bottom: 5px;
+}
+
+.graduation-date {
+  color: #807e7e;
+  font-size: 11pt;
+  margin-bottom: 5px;
+}
+
+.line {
+  width: 100%; /* full width of parent, adjust as needed */
+  height: 1px; /* line thickness */
+  background-color: #c5c5c5; /* line color */
+  margin: 15px 0; /* spacing above and below */
+}
+
+.summary {
+  font-size: 11pt;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 30px;
+}
+
+.career-history {
+  margin-bottom: 30px;
+}
+
+.career-history-2 {
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.role-company {
+  display: flex;
+  flex-direction: row;
+  font-size: 12pt;
+}
+
+.position {
+  font-weight: bold;
+}
+
+.career-dates {
+  display: flex;
+  flex-direction: row;
+  font-size: 11pt;
+  color: #807e7e;
+  margin-top: 5px;
+}
+
+.overview {
+  font-size: 11pt;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 5px;
+}
+
+ul {
+  padding-inline-start: 20px;
+}
+
+.key-responsibilities,
+.achievements {
+  font-size: 11pt;
+  font-weight: bold;
+}
+
+.responsibility,
+.achievement,
+.interest {
+  font-size: 11pt;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.reference-detail {
+  font-size: 11pt;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.reference-label {
+  margin-top: 20px;
+}
