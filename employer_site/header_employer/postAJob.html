@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background-color: #f5f5f5;
+      margin: 0;
+      height: 1500px;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .left-section img {
+      height: 80px;
+      width: auto;
+    }
+
+    .mid-section {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      font-size: 14px;
+    }
+
+    .right-section {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .job-search-container {
+      padding: 15px;
+      padding-left: 30px;
+      padding-right: 30px;
+      background-color: #0c4a86;
+      color: white;
+      font-weight: 600;
+      border-radius: 5px;
+    }
+
+    .job-search-button {
+      letter-spacing: 2px;
+    }
+
+    .dashboard-container,
+    .resume-generate-container,
+    .profile-container,
+    .employer-site-container {
+      color: #0c4a86;
+      font-weight: 600;
+      padding: 15px;
+      padding-left: 30px;
+      padding-right: 30px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .sign-out-container {
+      padding: 15px;
+      padding-left: 30px;
+      padding-right: 30px;
+      background-color: #dd3030;
+      color: white;
+      font-weight: 600;
+      border-radius: 5px;
+    }
+
+    .sign-out-container:hover {
+      transition: all 0.3s ease;
+      opacity: 0.6;
+      cursor: pointer;
+    }
+
+    .nav-button:hover {
+      color: white;
+      background-color: #0c4a86;
+      cursor: pointer;
+    }
+
+    .employer-site-container {
+      border: 2px solid #0c4a86;
+    }
+
+    @media (max-width: 1500px) {
+
+      .mid-section,
+      .right-section {
+        gap: 5px;
+        margin: 10px;
+      }
+    }
+
+    @media (max-width: 1020px) {
+      .mid-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 equal columns */
+        grid-template-rows: repeat(2, auto);
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+
+      .right-section {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <!--header-->
+  <div class="header">
+    <div class="left-section">
+      <img src="/CAREERPATH/assets/images/logo.png" />
+    </div>
+
+    <div class="mid-section">
+      <div class="nav-button dashboard-container"
+        onclick="location.href='/CAREERPATH/employer_site/company_profile/company_profile.php'">
+        COMPANY PROFILE
+      </div>
+
+      <div class="nav-button job-search-container"
+        onclick="location.href='/CAREERPATH/employer_site/post_a_job/post_a_job.php'">
+        POST A JOB
+      </div>
+
+      <div class="nav-button resume-generate-container"
+        onclick="location.href='/CAREERPATH/employer_site/manage_job/manage_job.php'">
+        MANAGE JOB
+      </div>
+
+      <div class="nav-button profile-container"
+        onclick="location.href='/CAREERPATH/employer_site/application_received/application_received.php'">
+        APPLICATION RECEIVED
+      </div>
+    </div>
+
+    <!--right section-->
+    <div class="right-section">
+      <div class="sign-out-container">
+        <div class="sign-out-button">SIGN OUT</div>
+      </div>
+      <div class="nav-button employer-site-container">
+        <div class="employer-site-button">JOB SEEKER SITE</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
