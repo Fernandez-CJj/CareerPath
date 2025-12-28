@@ -1,237 +1,69 @@
 <?php 
-include "../header_employer/ManageJob.html";
+include "../header_employer/ManageJob.html"; 
+include "../../config.php"; 
+$id = $_GET['id'];
+$job = $conn->query("SELECT * FROM job WHERE job_id = $id")->fetch_assoc();
 ?>
 
 <style>
-/* ===== FORM STYLES ===== */
-.form-container {
-  background-color: white;
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 40px 50px;
-  border-radius: 10px;
-}
-
-.form-container h2 {
-  color: #0c4a86;
-  font-size: 30px;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
-}
-
-.form-group label {
-  color: #0c4a86;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  border: 2px solid #0c4a86;
-  border-radius: 5px;
-  padding: 12px 20px;
-  font-size: 16px;
-}
-
-.form-group textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.form-row {
-  display: flex;
-  gap: 20px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-/* ===== BUTTONS ===== */
-.btn-primary {
-  background: #0c4a86;
-  color: white;
-  padding: 14px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-danger {
-  background: #e74c3c;
-  color: white;
-  padding: 14px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.action-row {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-/* ===== MODAL ===== */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-box {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 400px;
-  text-align: center;
-}
-
-.modal-box h3 {
-  color: #0c4a86;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.modal-actions button {
-  flex: 1;
-}
+.form-container { background-color: white; width: 100%; max-width: 700px; margin: 50px auto; padding: 40px 60px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+.form-group { display: flex; flex-direction: column; margin-bottom: 25px; }
+.form-group label { color: #0c4a86; font-weight: 600; font-size: 18px; margin-bottom: 10px; }
+.form-group input, .form-group textarea, .form-group select { border: 2px solid #0c4a86; border-radius: 8px; padding: 15px; font-size: 16px; width: 100%; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-box { background: white; padding: 50px; border-radius: 20px; text-align: center; width: 500px; }
+.btn-save-confirm { background: #0c4a86; color: white; padding: 15px 40px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 18px; }
+.btn-cancel-gray { background: #aaa; color: white; padding: 15px 40px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 18px; }
 </style>
 
 <div class="form-container">
-  <h2>Edit Job</h2>
-
-  <form id="edit-job-form">
-
-    <div class="form-group">
-      <label>Job Title</label>
-      <input type="text" value="Mobile App Developer | Flutter">
-    </div>
-
-    <div class="form-group">
-      <label>Job Description</label>
-      <textarea>We are seeking a Mobile App Developer...</textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Type of Employment</label>
-      <select>
-        <option>Full-time</option>
-        <option selected>Part-time</option>
-        <option>Gig</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Key Responsibilities</label>
-      <textarea>Build Flutter apps, integrate APIs...</textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Qualifications</label>
-      <textarea>BSIT or equivalent experience</textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Wage / Salary per month</label>
-      <input type="number" value="70000">
-    </div>
-     
-   
-     <div class="form-group">
-      <label>Hours per Week</label>
-      <input type="number" value="20">
-    </div>
-    <div class="form-group">
-      <label>Contact Person</label>
-      <input type="text" value="Cj Fernandez">
-    </div>
-
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" value="cj@email.com">
-    </div>
-
-    <div class="form-group">
-      <label>Skills</label>
-      <textarea>Flutter, Firebase, REST API</textarea>
-    </div>
-    
-
-    <div class="action-row">
-      <button type="button" class="btn-primary" onclick="confirmSave()">
-        Save Changes
-      </button>
-      <button type="button" class="btn-danger" onclick="confirmDelete()">
-        Delete Job
-      </button>
-    </div>
-
-  </form>
+    <h1 style="color: #0c4a86; margin-bottom: 30px;">Edit Job Ad</h1>
+    <form id="edit-form">
+        <input type="hidden" name="job_id" value="<?php echo $id; ?>">
+        <div class="form-group"><label>Job Title</label><input type="text" name="title" value="<?php echo htmlspecialchars($job['job_title']); ?>"></div>
+        <div class="form-group"><label>Job Overview</label><textarea name="jobOverview" rows="5"><?php echo htmlspecialchars($job['job_overview']); ?></textarea></div>
+        <div class="form-group">
+            <label>Type of Employment</label>
+            <select name="job_type">
+                <option value="full-time" <?php if($job['type_of_work']=='full-time') echo 'selected'; ?>>Full Time</option>
+                <option value="part-time" <?php if($job['type_of_work']=='part-time') echo 'selected'; ?>>Part Time</option>
+                <option value="gig" <?php if($job['type_of_work']=='gig') echo 'selected'; ?>>Gig</option>
+            </select>
+        </div>
+        <div class="form-group"><label>Key Responsibilities</label><textarea name="keyResponsibilities" rows="6"><?php echo htmlspecialchars($job['key_responsibilities']); ?></textarea></div>
+        <div class="form-group"><label>Qualifications</label><textarea name="qualifications" rows="5"><?php echo htmlspecialchars($job['qualifications']); ?></textarea></div>
+        <div class="form-group"><label>Wage/Salary</label><input type="number" name="wage" value="<?php echo $job['salary']; ?>"></div>
+        <div class="form-group"><label>Hours per Week</label><input type="number" name="hoursPerWeek" value="<?php echo $job['hours']; ?>"></div>
+        <div class="form-group"><label>Contact Person</label><input type="text" name="contactPerson" value="<?php echo htmlspecialchars($job['contact_person']); ?>"></div>
+        <div class="form-group"><label>Email</label><input type="email" name="email" ></div>
+        <div class="form-group"><label>Location</label><input type="text" name="location" value="<?php echo htmlspecialchars($job['location']); ?>"></div>
+        <div class="form-group"><label>Skills</label><textarea name="skills"><?php echo htmlspecialchars($job['skills_requirements']); ?></textarea></div>
+        
+        <button type="button" onclick="document.getElementById('saveModal').style.display='flex'" style="width: 100%; background: #0c4a86; color: white; padding: 18px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px;">Update Posting</button>
+    </form>
 </div>
 
-<!-- ===== SAVE MODAL ===== -->
 <div class="modal" id="saveModal">
-  <div class="modal-box">
-    <h3>Save Changes?</h3>
-    <p>Are you sure you want to save these changes?</p>
-    <div class="modal-actions">
-      <button class="btn-primary" onclick="saveChanges()">Yes</button>
-      <button onclick="closeModal('saveModal')">Cancel</button>
+    <div class="modal-box">
+        <img src="../../assets/images/save.png" style="width: 150px; height: auto; margin-bottom: 20px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2874/2874050.png'">
+        <h1 style="color: #0c4a86; margin-bottom: 10px;">Save Changes?</h1>
+        <p style="color: #777; margin-bottom: 40px;">Save all of your changes</p>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="btn-cancel-gray" onclick="document.getElementById('saveModal').style.display='none'">Cancel</button>
+            <button class="btn-save-confirm" onclick="updateJob()">Save Changes</button>
+        </div>
     </div>
-  </div>
-</div>
-
-<!-- ===== DELETE MODAL ===== -->
-<div class="modal" id="deleteModal">
-  <div class="modal-box">
-    <h3>Delete Job?</h3>
-    <p>This action cannot be undone.</p>
-    <div class="modal-actions">
-      <button class="btn-danger" onclick="deleteJob()">Delete</button>
-      <button onclick="closeModal('deleteModal')">Cancel</button>
-    </div>
-  </div>
 </div>
 
 <script>
-function confirmSave() {
-  document.getElementById('saveModal').style.display = "flex";
-}
-
-function confirmDelete() {
-  document.getElementById('deleteModal').style.display = "flex";
-}
-
-function closeModal(id) {
-  document.getElementById(id).style.display = "none";
-}
-
-function saveChanges() {
-  closeModal('saveModal');
-  alert("Changes saved (connect to PHP & DB)");
-}
-
-function deleteJob() {
-  closeModal('deleteModal');
-  alert("Job deleted (connect to PHP & DB)");
+function updateJob() {
+    const formData = new FormData(document.getElementById('edit-form'));
+    formData.append('action', 'update_job');
+    fetch('job_operations.php', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') window.location.href='manage_job.php';
+        else alert("Error: " + data.message);
+    });
 }
 </script>

@@ -1,164 +1,64 @@
-<?php 
-include "../header_employer/postAJob.html";
-?>
+<?php include "../header_employer/postAJob.html"; include "../../config.php"; ?>
 
-<!-- PAGE-SPECIFIC STYLES -->
 <style>
-.form-container {
-  background-color: white;
-  width: 100%;
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 40px 50px;
-}
-
-.form-container h2 {
-  color: #0c4a86;
-  font-size: 30px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
-}
-
-.form-group label {
-  color: #0c4a86;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select {
-  border: 2px solid #0c4a86;
-  border-radius: 5px;
-  height: 50px;
-  padding: 0 20px;
-  font-size: 16px;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(12, 74, 134, 0.2);
-}
-
-.form-row {
-  display: flex;
-  gap: 20px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.form-group textarea {
-  border: 2px solid #0c4a86;
-  border-radius: 5px;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-family: Arial;
-  resize: vertical;
-  min-height: 120px;
-}
-
-.btn-primary {
-  background-color: #0c4a86;
-  border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 15px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.btn-primary:hover {
-  opacity: 0.85;
-}
+.form-container { background-color: white; width: 100%; max-width: 600px; margin: 80px auto; padding: 40px 50px; }
+.form-container h2 { color: #0c4a86; font-size: 30px; font-weight: 600; margin-bottom: 30px; text-align: center; }
+.form-group { display: flex; flex-direction: column; margin-bottom: 25px; }
+.form-group label { color: #0c4a86; font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+.form-group input, .form-group select { border: 2px solid #0c4a86; border-radius: 5px; height: 50px; padding: 0 20px; font-size: 16px; }
+.form-row { display: flex; gap: 20px; }
+.form-row .form-group { flex: 1; }
+.form-group textarea { border: 2px solid #0c4a86; border-radius: 5px; padding: 15px 20px; font-size: 16px; font-family: Arial; resize: vertical; min-height: 120px; }
+.btn-primary { background-color: #0c4a86; border: none; color: white; font-size: 16px; font-weight: 600; padding: 15px 0; border-radius: 5px; cursor: pointer; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-box { background: white; padding: 40px; border-radius: 15px; text-align: center; max-width: 400px; }
 </style>
 
-<!-- PAGE CONTENT -->
 <div class="form-container">
   <h2>Post a New Job</h2>
-
-  <form id="post-job-form" onsubmit="postJob(event)">
-
+  <form id="post-job-form" onsubmit="submitJob(event)">
+    <div class="form-group"><label>Job Title *</label><input type="text" name="title" placeholder="e.g. Junior Web Developer" required></div>
+    <div class="form-group"><label>Job Overview *</label><textarea name="jobOverview" placeholder="Enter Job Overview" required></textarea></div>
     <div class="form-group">
-      <label>Job Title *</label>
-      <input type="text" name="title" placeholder="e.g. Junior Web Developer" required>
+      <label>Type of Employment *</label>
+      <select name="job_type" required>
+        <option value="">Select type</option>
+        <option value="full-time">Full-time</option>
+        <option value="part-time">Part-time</option>
+        <option value="gig">Gig</option>
+      </select>
     </div>
-
-    <div class="form-group">
-      <label>Job Description *</label>
-      <textarea name="jobDescription" placeholder="Enter Job Description" required></textarea>
-    </div>
-
+    <div class="form-group"><label>Key Responsibilities *</label><textarea name="keyResponsibilities" placeholder="e.g. Managed team of developers, conducted code reviews. Use commas as separator" required></textarea></div>
+    <div class="form-group"><label>Qualifications</label><textarea name="qualifications" placeholder="e.g. Bachelor's degree in Computer Science, 2+ years of experience, Use commas as separator"></textarea></div>
     <div class="form-row">
-      
-
-      <div class="form-group">
-        <label>Type of Employment *</label>
-        <select name="job_type" required>
-          <option value="">Select type</option>
-          <option value="Full-time">Full-time</option>
-          <option value="Part-time">Part-time</option>
-          <option value="Gig">Gig</option>
-         
-        </select>
-      </div>
+      <div class="form-group"><label>Wage/Salary *</label><input type="number" name="wage" placeholder="e.g. 50000" required></div>
+      <div class="form-group"><label>Hours per Week *</label><input type="number" name="hoursPerWeek" placeholder="e.g. 40" required></div>
     </div>
-
-
- 
-
-    <div class="form-group">
-      <label>Key Responsibilities *</label>
-      <textarea name="keyResponsibilities" placeholder="e.g. Managed team of developers, conducted code reviews. Use commas as separator" required></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Qualifications</label>
-      <textarea name="qualifications" placeholder="e.g. Bachelor's degree in Computer Science, 2+ years of experience, Use commas as separator"></textarea>
-    </div>
-   <div class="form-group">
-      <label>Wage/Salary per month *</label>
-      <input type="number" name="wage" placeholder="e.g. 50000" required>
-      
-    </div>
-     <div class="form-group">
-      <label>Hours per Week *</label>
-      <input type="number" name="hoursPerWeek" placeholder="e.g. 40" required>
-      
-    </div>
-    
-  <div class="form-group">
-      <label>Contact Person *</label>
-      <input type="text" name="contactPerson" placeholder="e.g. John Doe" required>
-    </div>
-      <div class="form-group">
-      <label>Email *</label>
-      <input type="email" name="email" placeholder="e.g. JohnDoe@email.com" required>
-    </div>
-    
-    <div class="form-group">
-      <label>Skills</label>
-      <textarea name="skills" placeholder="e.g. PHP, JavaScript, HTML. Use commas as separator"></textarea>
-    </div>
-  
-    <button type="submit" class="btn-primary" style="width:100%">
-      Post Job
-    </button>
-
+    <div class="form-group"><label>Contact Person *</label><input type="text" name="contactPerson" placeholder="e.g. John Doe" required></div>
+    <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="e.g. JohnDoe@email.com" required></div>
+    <div class="form-group"><label>Location *</label><input type="text" name="location" placeholder="e.g. New York, Baguio City, Manila" required></div>
+    <div class="form-group"><label>Skills</label><textarea name="skills" placeholder="e.g. PHP, JavaScript, HTML. Use commas as separator"></textarea></div>
+    <button type="submit" class="btn-primary" style="width:100%">Post Job</button>
   </form>
 </div>
 
-<!-- AJAX SCRIPT -->
+<div class="modal" id="postSuccessModal">
+    <div class="modal-box">
+        <h3 style="color: #0c4a86;">Job Posted!</h3>
+        <p>Your job ad has been successfully created.</p>
+        <button class="btn-primary" onclick="window.location.href='../manage_job/manage_job.php'" style="width: 100%; margin-top: 20px;">View Manage Jobs</button>
+    </div>
+</div>
 
+<script>
+function submitJob(e) {
+    e.preventDefault();
+    const formData = new FormData(document.getElementById('post-job-form'));
+    formData.append('action', 'post_job');
+    fetch('../manage_job/job_operations.php', { method: 'POST', body: formData })
+    .then(res => res.json()).then(data => {
+        if(data.status === 'success') document.getElementById('postSuccessModal').style.display = 'flex';
+        else alert("Error: " + data.message);
+    });
+}
+</script>

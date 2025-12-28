@@ -1,13 +1,18 @@
-<?php 
+<?php
+session_start();
+include "../../config.php";
+
+/* AUTH CHECK — MUST BE FIRST */
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /CAREERPATH/employer_site/login_modules_employer/loginEmployer.php");
+    exit;
+}
+
+/* HEADER OUTPUT */
 include "../header_employer/companyProfile.html";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <style>
+
+<style>
   :root {
     --primary-blue: #0c4a86;
     --text-dark: #333;
@@ -107,9 +112,6 @@ include "../header_employer/companyProfile.html";
     color: var(--text-muted);
   }
 </style>
-</head>
-<body>
-   
 
 <div class="profile-banner">
   <div class="company-logo-card">
@@ -120,7 +122,6 @@ include "../header_employer/companyProfile.html";
   <div class="info-banner">
     <h1>Skyline Apps Innovation</h1>
     <p class="tagline">"Recognized for excellence in mobile app innovation and cross-platform development"</p>
-    
     <div class="contact-details">
       <p><strong>Location:</strong> Urdaneta City</p>
       <p><strong>Email us:</strong> skylineappsinnovationcorp2025@gmail.com</p>
@@ -149,18 +150,16 @@ include "../header_employer/companyProfile.html";
     89% rate workplace culture as positive<br>
     85% recommend this employer to friends<br><br>
     What it's like working at Skyline Apps Innovation:<br>
-    Employees appreciate the collaborative work culture, opportunities to develop innovative apps, and exposure to international projects. Career development programs, supportive mentors, and regular training are highly valued. [cite: 11]
+    Employees appreciate the collaborative work culture, opportunities to develop innovative apps, and exposure to international projects. Career development programs, supportive mentors, and regular training are highly valued.
   </div>
 
   <h3 style="color: var(--text-dark); margin-top: 40px;">Perks and Benefits</h3>
   <ul class="perks-list">
-    <li>Comprehensive medical, dental, and vision coverage [cite: 11]</li>
-    <li>Learning support: sponsored training, workshops & certifications [cite: 11]</li>
-    <li>Performance bonuses and annual salary adjustments [cite: 11]</li>
-    <li>Vacation and sick leave credits above industry standard [cite: 11]</li>
-    <li>Hybrid/flexible work setup (work-from-home options available) [cite: 11]</li>
-    <li>Company-issued laptops, mobile devices, and licensed tools [cite: 11]</li>
+    <li>Comprehensive medical, dental, and vision coverage</li>
+    <li>Learning support: sponsored training, workshops & certifications</li>
+    <li>Performance bonuses and annual salary adjustments</li>
+    <li>Vacation and sick leave credits above industry standard</li>
+    <li>Hybrid/flexible work setup (work-from-home options available)</li>
+    <li>Company-issued laptops, mobile devices, and licensed tools</li>
   </ul>
 </div>
-</body>
-</html>
