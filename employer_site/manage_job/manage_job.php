@@ -1,270 +1,153 @@
 <?php 
-include "../header_employer/ManageJob.html";
+include "../header_employer/ManageJob.html"; 
+include "../../config.php"; 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manage Jobs</title>
 <style>
-:root {
-  --primary-blue: #0c4a86;
-  --bg-gray: #f4f7f6;
-  --text-gray: #555;
-  --danger-red: #e74c3c;
-}
+:root { --primary-blue: #0c4a86; --bg-gray: #f4f7f6; }
+body { background-color: var(--bg-gray); font-family: Arial, sans-serif; }
+.manage-container { max-width: 1000px; margin: 40px auto; }
 
-body {
-  background-color: var(--bg-gray);
-  font-family: 'Arial', sans-serif;
-}
-
-/* Header Title Style */
-.page-title-container {
-  background-color: white;
-  width: fit-content;
-  padding: 10px 60px;
-  margin: 20px auto 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.page-title-container h1 {
-  color: var(--primary-blue);
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-}
+/* Header Styling */
+.manage-header { background: white; padding: 15px 40px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #eee; text-align: center; }
+.manage-header h1 { color: var(--primary-blue); margin: 0; font-size: 28px; }
 
 /* Job Card Styling */
-.manage-container {
-  max-width: 1000px;
-  margin: 0 auto;
+.job-card { background: white; border-radius: 15px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
+.badge-type { background-color: #d1e3f8; color: var(--primary-blue); padding: 4px 15px; border-radius: 5px; font-size: 13px; margin-left: 15px; border: 1px solid #accbee; vertical-align: middle; }
+.skill-tag { background-color: var(--primary-blue); color: white; padding: 8px 20px; border-radius: 5px; font-size: 14px; margin-right: 10px; }
+
+/* Action Buttons (Larger Size) */
+.action-icon {
+    width: 75px; 
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 5px;
+}
+.action-icon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
 }
 
-.job-card {
-  background: white;
-  border-radius: 15px;
-  padding: 30px;
-  margin-bottom: 25px;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.job-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.job-title-section h2 {
-  color: #333;
-  font-size: 22px;
-  margin: 0 0 5px 0;
-  display: inline-block;
-}
-
-.badge-type {
-  background-color: #d1e3f8;
-  color: var(--primary-blue);
-  padding: 4px 15px;
-  border-radius: 5px;
-  font-size: 13px;
-  margin-left: 15px;
-  border: 1px solid #adc9eb;
-  vertical-align: middle;
-}
-
-.job-meta {
-  color: var(--text-gray);
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-.job-description {
-  color: #444;
-  font-size: 15px;
-  line-height: 1.5;
-  margin: 15px 0;
-}
-
-.see-more {
-  color: var(--primary-blue);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-/* Action Icons */
-.action-icons {
-  display: flex;
-  gap: 20px;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  transition: transform 0.2s;
-}
-
-.delete-icon { color: var(--danger-red); }
-.edit-icon { color: var(--primary-blue); }
-
-/* Skill Tags */
-.skills-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.skill-tag {
-  background-color: var(--primary-blue);
-  color: white;
-  padding: 8px 25px;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-box {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 400px;
-  text-align: center;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.modal-actions button {
-  flex: 1;
-  padding: 10px;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-.modal-actions .btn-primary { background: var(--primary-blue); color: white; }
-.modal-actions .btn-danger { background: var(--danger-red); color: white; }
+/* Modal Styling */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal-box { background: white; padding: 40px; border-radius: 20px; text-align: center; width: 450px; }
+.btn-cancel { background: #3f4a91; color: white; padding: 12px 35px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+.btn-delete-confirm { background: #888; color: white; padding: 12px 35px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
 </style>
-</head>
-<body>
-
-<div class="page-title-container">
-  <h1>Manage Job</h1>
-</div>
 
 <div class="manage-container">
-  
-  <div class="job-card">
-    <div class="job-header">
-      <div class="job-title-section">
-        <h2>Mobile App Developer | Flutter</h2>
-        <span class="badge-type">Part Time</span>
-        <div class="job-meta">Cj Fernandez • Posted on October 10, 2025</div>
-        <div class="job-meta"><strong>$70,000</strong></div>
-      </div>
-      <div class="action-icons">
-        <button class="icon-btn delete-icon" title="Delete">🗑️</button>
-        <button class="icon-btn edit-icon" title="Edit">📝</button>
-      </div>
+    <div class="manage-header">
+        <h1>Manage Job</h1>
     </div>
-    
-    <p class="job-description">
-      We are seeking a Mobile App Developer (Flutter) to join our team...
-      <a href="#" class="see-more">See More</a>
-    </p>
 
-    <div class="skills-row">
-      <span class="skill-tag">Mobile Development</span>
-      <span class="skill-tag">Flutter</span>
-      <span class="skill-tag">Firebase</span>
+    <?php
+    // Fetch jobs along with employer name
+    $result = $conn->query("SELECT job.*, users.username AS employer_name 
+                            FROM job 
+                            LEFT JOIN users ON job.user_id = users.id 
+                            ORDER BY date_posted DESC");
+
+    if($result->num_rows > 0):
+        while($row = $result->fetch_assoc()):
+    ?>
+    <div class="job-card">
+        <div style="display:flex; justify-content:space-between; align-items: flex-start;">
+            <div>
+                <h2 style="margin:0; font-size: 22px;">
+                    <a href="job_details.php?id=<?php echo $row['job_id']; ?>" style="text-decoration: none; color: inherit;">
+                        <?php echo htmlspecialchars($row['job_title']); ?> 
+                    </a>
+                    <span class="badge-type"><?php echo ucfirst($row['type_of_work']); ?></span>
+                </h2>
+
+                <div style="color: #0c4a86; font-weight: 600; margin-top: 3px;">
+                    <i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($row['location']); ?>
+                </div>
+
+                <div style="color: #777; margin-top:5px;">
+                    <?php echo htmlspecialchars($row['employer_name'] ?? 'Employer'); ?> • Posted on <?php echo date('F d, Y', strtotime($row['date_posted'])); ?>
+                </div>
+
+                <div style="font-weight: bold; margin-top:5px;">₱<?php echo number_format($row['salary'], 2); ?></div>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <img src="../../assets/images/delete.png" 
+                     class="action-icon" 
+                     onclick="confirmDel(<?php echo $row['job_id']; ?>)" 
+                     alt="Delete"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/3096/3096673.png'">
+                     
+                <img src="../../assets/images/edit.png" 
+                     class="action-icon" 
+                     onclick="location.href='edit_job.php?id=<?php echo $row['job_id']; ?>'" 
+                     alt="Edit"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/1159/1159633.png'">
+            </div>
+        </div>
+
+        <p style="color: #555; line-height: 1.6; margin: 20px 0;">
+            <?php echo substr(htmlspecialchars($row['job_overview']), 0, 250); ?>... 
+            <a href="job_details.php?id=<?php echo $row['job_id']; ?>" style="color: var(--primary-blue); font-weight: bold; text-decoration: none;">See More</a>
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+            <?php 
+            $skillsArr = explode(',', $row['skills_requirements']);
+            foreach($skillsArr as $s) {
+                if(trim($s)) echo "<span class='skill-tag'>".htmlspecialchars(trim($s))."</span>"; 
+            }
+            ?>
+        </div>
     </div>
-  </div>
-
-  <div class="job-card">
-    <div class="job-header">
-      <div class="job-title-section">
-        <h2>Web Developer - Urgent Hire</h2>
-        <span class="badge-type" style="background:#eee; color:#666; border-color:#ccc;">Any</span>
-        <div class="job-meta">Ryan Fernandez • Posted on October 10, 2025</div>
-        <div class="job-meta"><strong>$500 - $1,500/month</strong></div>
-      </div>
-      <div class="action-icons">
-        <button class="icon-btn delete-icon">🗑️</button>
-        <button class="icon-btn edit-icon">📝</button>
-      </div>
-    </div>
-    
-    <p class="job-description">
-      We're looking for a full-time web developer experienced in marketing funnels...
-      <a href="#" class="see-more">See More</a>
-    </p>
-  </div>
-
+    <?php 
+        endwhile; 
+    else:
+        echo "<p style='text-align:center; color:#777;'>No job postings found.</p>";
+    endif;
+    ?>
 </div>
 
-<!-- Delete Modal -->
-<div class="modal" id="deleteModal">
-  <div class="modal-box">
-    <h3>Delete Job?</h3>
-    <p>This action cannot be undone.</p>
-    <div class="modal-actions">
-      <button class="btn-danger" id="confirmDeleteBtn">Delete</button>
-      <button onclick="closeModal('deleteModal')">Cancel</button>
+<div class="modal" id="delModal">
+    <div class="modal-box">
+        <img src="../../assets/images/delete.png" style="width: 80px; margin-bottom: 20px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3096/3096673.png'">
+        <h2 style="color: var(--primary-blue); margin-bottom: 10px;">Delete Job Posting?</h2>
+        <p style="color: #777; margin-bottom: 30px;">This action is irreversible. Continue Deletion?</p>
+        <div style="display: flex; justify-content: space-around;">
+            <button class="btn-cancel" onclick="document.getElementById('delModal').style.display='none'">Cancel</button>
+            <button class="btn-delete-confirm" id="finalDel">Delete</button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-// Edit buttons
-document.querySelectorAll('.edit-icon').forEach(btn => {
-  btn.addEventListener('click', () => {
-    window.location.href = 'edit_job.php';
-  });
-});
+let deleteId = null;
 
-// Delete buttons
-let deleteTarget = null;
-document.querySelectorAll('.delete-icon').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    deleteTarget = e.target.closest('.job-card');
-    document.getElementById('deleteModal').style.display = 'flex';
-  });
-});
+function confirmDel(id) { 
+    deleteId = id; 
+    document.getElementById('delModal').style.display = 'flex'; 
+}
 
-document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-  if(deleteTarget){
-    deleteTarget.remove();
-    alert('Job deleted (connect to DB)');
-    closeModal('deleteModal');
-  }
-});
+document.getElementById('finalDel').onclick = () => {
+    fetch(`job_operations.php?action=delete_job&id=${deleteId}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success') {
+            location.reload();
+        } else {
+            alert('Error deleting job: ' + data.message);
+        }
+    })
+    .catch(err => console.error('Error:', err));
+}
 
-function closeModal(id){
-  document.getElementById(id).style.display = 'none';
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById('delModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
 </script>
-
-</body>
-</html>

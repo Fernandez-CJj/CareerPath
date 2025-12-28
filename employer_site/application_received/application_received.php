@@ -1,5 +1,6 @@
 <?php 
 include "../header_employer/applicationReceived.html"; 
+include "../../config.php";
 ?>
 
 <!DOCTYPE html>
