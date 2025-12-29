@@ -1,8 +1,9 @@
 <?php
+session_start();
+
 $message = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   include('../../config.php');
-  session_start();
 
   $email = strtolower(trim($_POST['email']));
   $password = $_POST['password'];
@@ -12,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $result = mysqli_query($conn, $sql);
   while ($row = mysqli_fetch_assoc($result)) {
     if ($row['email'] == $email && $row['password'] == $password) {
-      $_SESSION['id'] = $row['id'];
+      $_SESSION['seeker_id'] = $row['id'];
       header('Location: ../dashboard/dashboard.php');
     } else {
       $message = 'invalid email or password';

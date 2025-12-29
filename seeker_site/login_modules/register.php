@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if (!$hasError) {
-    $sql = "INSERT INTO users (username, contactnumber, email, password) VALUES ('$username','$contact_number','$email','$password');";
+    $sql = "INSERT INTO users (username, contactnumber, email, password, type_of_user) VALUES ('$username','$contact_number','$email','$password', 'seeker');";
 
     $result = mysqli_query($conn, $sql);
 

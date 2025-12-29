@@ -1,0 +1,84 @@
+.dashboard-content-container {
+  display: flex;
+  margin: 50px;
+  gap: 100px;
+}
+
+.dashboard-left-section {
+  flex: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #0c4a86;
+  border-right: 1px solid #0c4a86;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  cursor: pointer;
+}
+
+.icon-container:hover {
+  opacity: 0.5;
+}
+
+.icon-container:active {
+  opacity: 0.4;
+}
+
+.dashboard-right-section {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.job-applications-text {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.application-container {
+  padding: 20px;
+  border: 2px solid #0c4a86;
+  border-radius: 10px;
+  max-width: 1000px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.application-container:hover {
+  opacity: 0.6;
+}
+
+.application-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.position-text {
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 18px;
+}
+
+.status-text {
+  color: #767676;
+  font-size: 16px;
+}
+
+.application-right-section {
+  color: #5a5a5a;
+}
