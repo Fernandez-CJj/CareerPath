@@ -7,20 +7,20 @@ include('../../config.php');
 $job_id = $_GET['id'];
 $sql = "SELECT * FROM job WHERE job_id='$job_id'";
 $result = mysqli_query($conn, $sql);
-$user_id = '';
+$employer_id = '';
 $member_since = '';
 $count = 0;
 while ($row = mysqli_fetch_assoc($result)) {
   $employer_id = $row['user_id'];
 }
 
-$sql = "SELECT * FROM users WHERE id='$user_id'";
+$sql = "SELECT * FROM users WHERE id='$employer_id'";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($result)) {
   $member_since = date('F d, Y', strtotime($row['created_at']));
 }
 
-$sql = "SELECT * FROM job WHERE user_id='$user_id'";
+$sql = "SELECT * FROM job WHERE user_id='$employer_id'";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($result)) {
   $count += 1;

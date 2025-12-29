@@ -13,7 +13,7 @@ $seeker_id = $_SESSION['seeker_id'];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="dashboard.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="styles/dashboard.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
@@ -35,7 +35,7 @@ $seeker_id = $_SESSION['seeker_id'];
     <div class="dashboard-right-section">
       <div class="job-applications-text">JOB APPLICATIONS</div>
       <?php
-      $sql = "SELECT * FROM applications WHERE seeker_id='$seeker_id'";
+      $sql = "SELECT * FROM applications WHERE seeker_id='$seeker_id' ORDER BY created_at DESC";
       $result = mysqli_query($conn, $sql);
 
       while ($app_row = mysqli_fetch_assoc($result)) {
@@ -48,7 +48,7 @@ $seeker_id = $_SESSION['seeker_id'];
           $position = $job_row['job_title'];
         }
 
-        echo "<div class='application-container' onclick=\"window.location.href='../job_search/view_job.php?id={$job_id}'\">
+        echo "<div class='application-container' onclick=\"window.location.href='view_job.php?id={$job_id}'\">
   <div class='application-left-section'>
     <div class='position-text'>$position</div>
     <div class='status-text'>{$app_row['status']}</div>
