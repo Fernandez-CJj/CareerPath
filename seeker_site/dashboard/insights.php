@@ -158,7 +158,6 @@ foreach ($resumes as $row) {
   <link rel="stylesheet" href="styles/dashboard.css">
   <style>
     .insights-wrapper {
-      padding: 24px;
       background: #f5f5f5;
       min-height: 100vh;
     }
