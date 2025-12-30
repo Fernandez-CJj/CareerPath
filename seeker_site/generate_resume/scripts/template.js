@@ -40,6 +40,15 @@ function downloadModernPDF() {
   const section = document.querySelector(".modern");
   if (!wrap || !section || !window.html2pdf) return;
 
+  // Submit enhanced info
+  submitEnhancedInfo(
+    ".full-name",
+    ".email",
+    ".contact-number",
+    ".address",
+    ".modern"
+  );
+
   // Toggle export class to apply CSS overrides (legal width, no margins)
   document.documentElement.classList.add("pdf-export");
   document.body.classList.add("pdf-export");
@@ -62,21 +71,32 @@ function downloadModernPDF() {
     section.scrollIntoView({ behavior: "auto", block: "start" });
   } catch (e) {}
 
-  window
-    .html2pdf()
-    .set(options)
-    .from(section)
-    .save()
-    .finally(() => {
-      document.documentElement.classList.remove("pdf-export");
-      document.body.classList.remove("pdf-export");
-    });
+  setTimeout(() => {
+    window
+      .html2pdf()
+      .set(options)
+      .from(section)
+      .save()
+      .finally(() => {
+        document.documentElement.classList.remove("pdf-export");
+        document.body.classList.remove("pdf-export");
+      });
+  }, 200);
 }
 
 function downloadProfessionalPDF() {
   const wrap = document.querySelector(".professional-resume");
   const section = document.querySelector(".professional");
   if (!wrap || !section || !window.html2pdf) return;
+
+  // Submit enhanced info
+  submitEnhancedInfo(
+    ".professional-full-name",
+    ".professional-email",
+    ".professional-contact-number",
+    ".professional-address",
+    ".professional"
+  );
 
   document.documentElement.classList.add("pdf-export");
   document.body.classList.add("pdf-export");
@@ -98,21 +118,32 @@ function downloadProfessionalPDF() {
     section.scrollIntoView({ behavior: "auto", block: "start" });
   } catch (e) {}
 
-  window
-    .html2pdf()
-    .set(options)
-    .from(section)
-    .save()
-    .finally(() => {
-      document.documentElement.classList.remove("pdf-export");
-      document.body.classList.remove("pdf-export");
-    });
+  setTimeout(() => {
+    window
+      .html2pdf()
+      .set(options)
+      .from(section)
+      .save()
+      .finally(() => {
+        document.documentElement.classList.remove("pdf-export");
+        document.body.classList.remove("pdf-export");
+      });
+  }, 200);
 }
 
 function downloadSimplePDF() {
   const wrap = document.querySelector(".simple-resume");
   const section = document.querySelector(".simple");
   if (!wrap || !section || !window.html2pdf) return;
+
+  // Submit enhanced info
+  submitEnhancedInfo(
+    ".simple-full-name",
+    ".simple-email",
+    ".simple-contact-number",
+    ".simple-address",
+    ".simple"
+  );
 
   document.documentElement.classList.add("pdf-export");
   document.body.classList.add("pdf-export");
@@ -134,13 +165,15 @@ function downloadSimplePDF() {
     section.scrollIntoView({ behavior: "auto", block: "start" });
   } catch (e) {}
 
-  window
-    .html2pdf()
-    .set(options)
-    .from(section)
-    .save()
-    .finally(() => {
-      document.documentElement.classList.remove("pdf-export");
-      document.body.classList.remove("pdf-export");
-    });
+  setTimeout(() => {
+    window
+      .html2pdf()
+      .set(options)
+      .from(section)
+      .save()
+      .finally(() => {
+        document.documentElement.classList.remove("pdf-export");
+        document.body.classList.remove("pdf-export");
+      });
+  }, 200);
 }

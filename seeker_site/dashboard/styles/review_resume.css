@@ -1,0 +1,74 @@
+.review-resume-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid #0c4a86;
+  gap: 20px;
+}
+
+.review-resume-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #0c4a86;
+  font-size: 16px;
+  font-weight: 500;
+  flex: 15;
+}
+
+.review-resume-right-section {
+  color: #0c4a86;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+}
+
+.title {
+  font-size: 23px;
+  color: #0c4a86;
+  font-weight: bold;
+}
+
+.values {
+  color: black;
+}
+
+.generate-resume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.gr-button {
+  width: 800px;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #0c4a86;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.gr-button:hover {
+  opacity: 0.7;
+}
+
+.spacing {
+  height: 100px;
+}

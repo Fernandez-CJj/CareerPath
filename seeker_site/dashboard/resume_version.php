@@ -1,18 +1,5 @@
 <?php
 session_start();
-// Handle PDF display on POST BEFORE any output or includes
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['resume_path'])) {
-  $resume_path = $_POST['resume_path'];
-  $file_path = '../../' . $resume_path;
-  if (file_exists($file_path)) {
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: inline; filename="' . basename($file_path) . '"');
-    readfile($file_path);
-    exit;
-  } else {
-    die("Resume file not found.");
-  }
-}
 include('../header/dashboardHeader.html');
 include('../../config.php');
 $seeker_id = $_SESSION['seeker_id'];
@@ -47,23 +34,19 @@ $seeker_id = $_SESSION['seeker_id'];
     <div class="dashboard-right-section">
       <div class="job-applications-text">RESUME VERSIONS</div>
       <?php
-      $sql = "SELECT * FROM applications WHERE seeker_id='$seeker_id'";
+      $sql = "SELECT * FROM resumes WHERE seeker_id = $seeker_id";
       $result = mysqli_query($conn, $sql);
       $count = 0;
-      while ($app_row = mysqli_fetch_assoc($result)) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        $date = date('F d, Y', strtotime($row['created_at']));
         $count += 1;
-        $date = date('F d, Y', strtotime($app_row['created_at']));
-
-        echo "<form method='post' style='margin:0;'>
-          <input type='hidden' name='resume_path' value='" . htmlspecialchars($app_row['resume_path']) . "'>
-          <div class='application-container resume-card-clickable' style='cursor:pointer;' onclick='this.closest(\"form\").submit();'>
-            <div class='application-left-section'>
-              <div class='position-text'>Resume $count</div>
-              <div class='status-text'>$date</div>
-            </div>
-            <div class='view-text'>View</div>
-          </div>
-        </form>";
+        echo "<div class='application-container' onclick=\"window.location.href='review_resume.php?id={$row['id']}'\">
+        <div class='application-left-section'>
+          <div class='position-text'>{$row['name']}</div>
+          <div class='status-text'>Resume $count</div>
+        </div>
+        <div class='edit-text'>Edit ></div>
+      </div>";
       }
       ?>
 

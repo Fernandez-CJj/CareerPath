@@ -40,6 +40,14 @@ $seeker_id = $_SESSION['seeker_id'];
 
       while ($app_row = mysqli_fetch_assoc($result)) {
         $date = date('F d, Y', strtotime($app_row['created_at']));
+        $status = '';
+        if ($app_row['status'] == 'accepted') {
+          $status = 'accepted-text';
+        } else if ($app_row['status'] == 'declined') {
+          $status = 'declined-text';
+        } else {
+          $status = 'pending-text';
+        }
         $job_id = $app_row['job_id'];
         $sql = "SELECT * FROM job WHERE job_id='$job_id'";
         $job_result = mysqli_query($conn, $sql);
@@ -48,10 +56,10 @@ $seeker_id = $_SESSION['seeker_id'];
           $position = $job_row['job_title'];
         }
 
-        echo "<div class='application-container' onclick=\"window.location.href='view_job.php?id={$job_id}'\">
+        echo "<div class='application-container' onclick=\"window.location.href='view_job.php?id={$job_id}&message={$app_row['message']}'\">
   <div class='application-left-section'>
     <div class='position-text'>$position</div>
-    <div class='status-text'>{$app_row['status']}</div>
+    <div class='$status'>{$app_row['status']}</div>
   </div>
   <div class='application-right-section'>$date ></div>
 </div>";

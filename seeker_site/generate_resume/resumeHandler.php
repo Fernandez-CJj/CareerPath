@@ -14,7 +14,6 @@
 
 <body>
   <?php include '../header/resumegen.html'; ?>
-
   <?php
   require_once __DIR__ . '/functions/date_helpers.php';
   if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -1004,8 +1003,165 @@
       </div>
     </div>
   </div>
+  <form id="enhancedInfoForm" action="insert_enhanced_info.php" method="POST" target="hidden_iframe">
+    <input type="hidden" name="name" id="enhancedNameInput">
+    <input type="hidden" name="email" id="enhancedEmailInput">
+    <input type="hidden" name="contact_number" id="enhancedContactInput">
+    <input type="hidden" name="address" id="enhancedAddressInput">
+    <input type="hidden" name="course1" id="enhancedCourse1Input">
+    <input type="hidden" name="institution_name1" id="enhancedInstitution1Input">
+    <input type="hidden" name="graduation_year1" id="enhancedGraduation1Input">
+    <input type="hidden" name="course2" id="enhancedCourse2Input">
+    <input type="hidden" name="institution_name2" id="enhancedInstitution2Input">
+    <input type="hidden" name="graduation_year2" id="enhancedGraduation2Input">
+    <input type="hidden" name="job_title1" id="enhancedPosition1Input">
+    <input type="hidden" name="company1" id="enhancedCompany1Input">
+    <input type="hidden" name="start_year1" id="enhancedStartDate1Input">
+    <input type="hidden" name="end_year1" id="enhancedEndDate1Input">
+    <input type="hidden" name="job_overview1" id="enhancedOverview1Input">
+    <input type="hidden" name="key_responsibilities1" id="enhancedKeyResponsibilities1Input">
+    <input type="hidden" name="achievements1" id="enhancedAchievements1Input">
+    <input type="hidden" name="job_title2" id="enhancedPosition2Input">
+    <input type="hidden" name="company2" id="enhancedCompany2Input">
+    <input type="hidden" name="start_year2" id="enhancedStartDate2Input">
+    <input type="hidden" name="end_year2" id="enhancedEndDate2Input">
+    <input type="hidden" name="job_overview2" id="enhancedOverview2Input">
+    <input type="hidden" name="key_responsibilities2" id="enhancedKeyResponsibilities2Input">
+    <input type="hidden" name="achievements2" id="enhancedAchievements2Input">
+    <input type="hidden" name="skills" id="enhancedSkillsInput">
+    <input type="hidden" name="interests" id="enhancedInterestsInput">
+    <input type="hidden" name="summary" id="enhancedSummaryInput">
+    <input type="hidden" name="reference_type" id="enhancedReferenceTypeInput">
+    <input type="hidden" name="reference_name" id="enhancedReferenceNameInput">
+    <input type="hidden" name="reference_position" id="enhancedReferencePositionInput">
+    <input type="hidden" name="reference_company" id="enhancedReferenceCompanyInput">
+    <input type="hidden" name="reference_contact" id="enhancedReferenceContactInput">
+  </form>
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
   <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <script src="scripts/template.js?v=<?php echo time(); ?>"></script>
+  <script>
+    function submitEnhancedInfo(nameSelector, emailSelector, contactSelector, addressSelector, templateClass) {
+      // Personal Info
+      document.getElementById('enhancedNameInput').value = document.querySelector(nameSelector).textContent;
+      document.getElementById('enhancedEmailInput').value = document.querySelector(emailSelector).textContent;
+      document.getElementById('enhancedContactInput').value = document.querySelector(contactSelector).textContent;
+      document.getElementById('enhancedAddressInput').value = document.querySelector(addressSelector).textContent;
+
+      // Education
+      const courses = document.querySelectorAll(templateClass + ' .course');
+      const institutions = document.querySelectorAll(templateClass + ' .institution');
+      const graduationDates = document.querySelectorAll(templateClass + ' .graduation-date');
+
+      if (courses.length > 0) document.getElementById('enhancedCourse1Input').value = courses[0].textContent.trim();
+      if (institutions.length > 0) document.getElementById('enhancedInstitution1Input').value = institutions[0].textContent.trim();
+      if (graduationDates.length > 0) document.getElementById('enhancedGraduation1Input').value = graduationDates[0].textContent.trim();
+      if (courses.length > 1) document.getElementById('enhancedCourse2Input').value = courses[1].textContent.trim();
+      if (institutions.length > 1) document.getElementById('enhancedInstitution2Input').value = institutions[1].textContent.trim();
+      if (graduationDates.length > 1) document.getElementById('enhancedGraduation2Input').value = graduationDates[1].textContent.trim();
+
+      // Experience
+      const positions = document.querySelectorAll(templateClass + ' .position');
+      const companies = document.querySelectorAll(templateClass + ' .company');
+      const startDates = document.querySelectorAll(templateClass + ' .start-date');
+      const endDates = document.querySelectorAll(templateClass + ' .end-date');
+      const overviews = document.querySelectorAll(templateClass + ' .overview');
+
+      if (positions.length > 0) document.getElementById('enhancedPosition1Input').value = positions[0].textContent.trim();
+      if (companies.length > 0) document.getElementById('enhancedCompany1Input').value = companies[0].textContent.trim().replace('at ', '');
+      if (startDates.length > 0) document.getElementById('enhancedStartDate1Input').value = startDates[0].textContent.trim();
+      if (endDates.length > 0) document.getElementById('enhancedEndDate1Input').value = endDates[0].textContent.trim();
+      if (overviews.length > 0) {
+        const overviewLi = overviews[0].querySelector('li');
+        document.getElementById('enhancedOverview1Input').value = overviewLi ? overviewLi.textContent.trim() : '';
+      }
+
+      // Key Responsibilities 1 - implode with | separator
+      const keyResp1Elements = document.querySelectorAll(templateClass + ' .responsibility');
+      if (keyResp1Elements.length > 0) {
+        const keyResp1Array = Array.from(keyResp1Elements).slice(0, 3).map(el => el.textContent.trim());
+        document.getElementById('enhancedKeyResponsibilities1Input').value = keyResp1Array.join('|');
+      }
+
+      // Achievements 1 - implode with | separator
+      const ach1Elements = document.querySelectorAll(templateClass + ' .achievement');
+      if (ach1Elements.length > 0) {
+        const ach1Array = Array.from(ach1Elements).slice(0, 3).map(el => el.textContent.trim());
+        document.getElementById('enhancedAchievements1Input').value = ach1Array.join('|');
+      }
+
+      if (positions.length > 1) document.getElementById('enhancedPosition2Input').value = positions[1].textContent.trim();
+      if (companies.length > 1) document.getElementById('enhancedCompany2Input').value = companies[1].textContent.trim().replace('at ', '');
+      if (startDates.length > 1) document.getElementById('enhancedStartDate2Input').value = startDates[1].textContent.trim();
+      if (endDates.length > 1) document.getElementById('enhancedEndDate2Input').value = endDates[1].textContent.trim();
+      if (overviews.length > 1) {
+        const overviewLi = overviews[1].querySelector('li');
+        document.getElementById('enhancedOverview2Input').value = overviewLi ? overviewLi.textContent.trim() : '';
+      }
+
+      // Key Responsibilities 2 - implode with | separator  
+      if (keyResp1Elements.length > 3) {
+        const keyResp2Array = Array.from(keyResp1Elements).slice(3, 6).map(el => el.textContent.trim());
+        document.getElementById('enhancedKeyResponsibilities2Input').value = keyResp2Array.join('|');
+      }
+
+      // Achievements 2 - implode with | separator
+      if (ach1Elements.length > 3) {
+        const ach2Array = Array.from(ach1Elements).slice(3, 6).map(el => el.textContent.trim());
+        document.getElementById('enhancedAchievements2Input').value = ach2Array.join('|');
+      }
+
+      // Skills - implode with | separator
+      // Handle both modern/professional (li.skills) and simple (div.simple-skills-content) templates
+      let skillsArray = [];
+      const skillElements = document.querySelectorAll(templateClass + ' .skills');
+      if (skillElements.length > 0) {
+        skillsArray = Array.from(skillElements).map(el => el.textContent.trim());
+      } else {
+        const skillsContent = document.querySelector(templateClass + ' .simple-skills-content');
+        if (skillsContent) {
+          skillsArray = skillsContent.textContent.trim().split(',').map(s => s.trim()).filter(s => s);
+        }
+      }
+      document.getElementById('enhancedSkillsInput').value = skillsArray.join('|');
+
+      // Interests - implode with | separator
+      // Handle both modern/professional (li.interest) and simple (li.interest inside simple structure) templates
+      let interestsArray = [];
+      const interestElements = document.querySelectorAll(templateClass + ' .interest');
+      if (interestElements.length > 0) {
+        interestsArray = Array.from(interestElements).filter((el, idx, arr) => {
+          // For simple template, there are li.interest elements, use them
+          return el.tagName === 'LI';
+        }).map(el => el.textContent.trim());
+      }
+      document.getElementById('enhancedInterestsInput').value = interestsArray.join('|');
+
+      // Summary
+      const summaryElement = document.querySelector(templateClass + ' .summary');
+      if (summaryElement) {
+        document.getElementById('enhancedSummaryInput').value = summaryElement.textContent.trim();
+      }
+
+      // Reference
+      const referenceDetails = document.querySelectorAll(templateClass + ' .reference-detail');
+      if (referenceDetails.length > 0) {
+        const refText = referenceDetails[0].textContent;
+        if (refText.includes('Available Upon Request')) {
+          document.getElementById('enhancedReferenceTypeInput').value = 'AUR';
+        } else {
+          document.getElementById('enhancedReferenceTypeInput').value = 'ARD';
+          // Extract reference details
+          if (referenceDetails.length > 0) document.getElementById('enhancedReferenceNameInput').value = referenceDetails[0].textContent.replace('Name:', '').trim();
+          if (referenceDetails.length > 1) document.getElementById('enhancedReferencePositionInput').value = referenceDetails[1].textContent.replace('Position:', '').trim();
+          if (referenceDetails.length > 2) document.getElementById('enhancedReferenceCompanyInput').value = referenceDetails[2].textContent.replace('Company:', '').trim();
+          if (referenceDetails.length > 3) document.getElementById('enhancedReferenceContactInput').value = referenceDetails[3].textContent.replace('Contact Number:', '').trim();
+        }
+      }
+
+      document.getElementById('enhancedInfoForm').submit();
+    }
+  </script>
 
 </body>
 

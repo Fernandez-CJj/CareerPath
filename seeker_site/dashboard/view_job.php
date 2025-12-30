@@ -4,6 +4,19 @@ $seeker_id = $_SESSION['seeker_id'];
 
 include('../../config.php');
 
+
+$message = $_GET['message'] ?? "";
+
+
+if (!empty($message)) {
+  echo '<div id="custom-dialog-overlay">';
+  echo '<div id="custom-dialog">';
+  echo '<div class="dialog-icon">&#128276;</div>';
+  echo '<div class="dialog-message">' . htmlspecialchars($message) . '</div>';
+  echo '<button class="dialog-ok-btn" onclick="document.getElementById(\'custom-dialog-overlay\').remove();">OK</button>';
+  echo '</div></div>';
+}
+
 // Handle PDF display on POST BEFORE any output
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $job_id = $_GET['id'];
