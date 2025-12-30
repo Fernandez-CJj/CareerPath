@@ -76,7 +76,7 @@ $employer_id = $_SESSION['user_id'];
         </thead>
         <tbody>
             <?php
-            // Fetch applications for this employer
+        
             $sql = "SELECT a.id, a.status, a.created_at, u.username, j.job_title 
                     FROM applications a
                     JOIN users u ON a.seeker_id = u.id
