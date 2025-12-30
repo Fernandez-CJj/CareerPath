@@ -96,7 +96,7 @@ $employer_id = $_SESSION['user_id'];
                     echo "<tr onclick=\"location.href='application_detail.php?id={$row['id']}'\">
                             <td>
                                 <div class='applicant-info'>
-                                    <div class='avatar'></div>
+                                    
                                     <span>" . htmlspecialchars($row['username']) . "</span>
                                 </div>
                             </td>

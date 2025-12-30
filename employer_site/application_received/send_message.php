@@ -73,7 +73,7 @@ if (isset($_POST['confirm_action'])) {
         
         <label for="employer_message">Send a message to the seeker:</label>
         <textarea name="employer_message" id="employer_message" 
-            placeholder="<?php echo ($action === 'declined') ? 'e.g. Thank you for your interest, but we have decided to move forward with other candidates...' : 'e.g. Congratulations! We would like to schedule an interview...'; ?>" 
+            placeholder="<?php echo ($action === 'declined') ? 'e.g. Thank you for your interest, but we have decided to move forward with other candidates, Please understand ...' : 'e.g. Congratulations! We would like to schedule an interview...'; ?>" 
             required></textarea>
         
         <button type="submit" name="confirm_action" class="btn-confirm">
