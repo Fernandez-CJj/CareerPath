@@ -3,7 +3,6 @@ session_start();
 include "../../config.php";
 
 // 1. DATA AND SESSION CHECK
-// Ensure the user is logged in to prevent undefined index errors
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login_modules/login.php"); 
     exit();
@@ -16,20 +15,12 @@ if (!$app_id) {
     exit();
 }
 
-// 2. LOGIC PROCESSING (Must be before any HTML output)
+// 2. LOGIC PROCESSING
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action']) && $_POST['action'] === 'declined') {
-        $update_sql = "UPDATE applications SET status = 'declined' WHERE id = ?";
-        $upd_stmt = $conn->prepare($update_sql);
-        $upd_stmt->bind_param("i", $app_id);
-        $upd_stmt->execute();
-        header("Location: application_received.php");
-        exit();
-    } elseif (isset($_POST['action']) && $_POST['action'] === 'accepted') {
-        // Redirect to message page
-        header("Location: send_message.php?id=" . $app_id); 
-        exit();
-    }
+    // Both actions now redirect to send_message.php to allow for a custom message
+    $action = $_POST['action']; // This will be 'accepted' or 'declined'
+    header("Location: send_message.php?id=" . $app_id . "&action=" . $action); 
+    exit();
 }
 
 // 3. FETCH DATA FOR DISPLAY
@@ -61,7 +52,6 @@ include "../header_employer/applicationReceived.html";
 
         body { 
             background-color: var(--bg-gray); 
-           
             margin: 0; 
         }
 
@@ -94,7 +84,6 @@ include "../header_employer/applicationReceived.html";
             font-size: 12px; 
         }
 
-        /* The clickable preview container */
         .resume-preview { 
             width: 100%; 
             height: 550px; 
@@ -107,7 +96,6 @@ include "../header_employer/applicationReceived.html";
             background: #fdfdfd;
         }
 
-        /* pointer-events: none allows the click to reach the parent div */
         .resume-preview iframe { 
             width: 100%; 
             height: 100%; 
@@ -136,7 +124,6 @@ include "../header_employer/applicationReceived.html";
         .btn-decline { background: white; color: var(--danger-red); border: 2px solid var(--danger-red); }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); opacity: 0.9; }
 
-        /* Full Screen Overlay Fixes */
         #overlay { 
             display: none; 
             position: fixed; 
@@ -152,7 +139,7 @@ include "../header_employer/applicationReceived.html";
 
         #overlay iframe { 
             width: 85%; 
-            height: 90vh; /* Uses Viewport Height to ensure it fills the screen */
+            height: 90vh; 
             background: white;
             border-radius: 5px;
             border: none;
@@ -204,7 +191,6 @@ include "../header_employer/applicationReceived.html";
 <script>
     function openFullResume() {
         document.getElementById('overlay').style.display = 'flex';
-        // Force reload the PDF inside the overlay to ensure it renders correctly
         const iframe = document.getElementById('fullScreenIframe');
         iframe.src = iframe.src;
     }
@@ -213,7 +199,6 @@ include "../header_employer/applicationReceived.html";
         document.getElementById('overlay').style.display = 'none';
     }
 
-    // Close overlay if clicking outside the PDF
     window.onclick = function(event) {
         const overlay = document.getElementById('overlay');
         if (event.target == overlay) {

@@ -1,12 +1,11 @@
 <?php 
-// 1. Session and Logic MUST come first
+
 if (session_status() === PHP_SESSION_NONE) { 
     session_start(); 
 }
 
 include "../../config.php"; 
 
-// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit();
@@ -15,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 $id = $_GET['id'];
 $logged_in_user = $_SESSION['user_id'];
 
-// Fetch the job
+
 $sql = "SELECT job.*, users.email 
         FROM job 
         JOIN users ON job.user_id = users.id 
@@ -33,12 +32,12 @@ if($result->num_rows == 0) {
 
 $job = $result->fetch_assoc();
 
-// 2. Now you can include HTML files
+
 include "../header_employer/ManageJob.html";
 ?>
 
 <style>
-/* Your Exact CSS Provided Earlier */
+
 .form-container { background-color: white; width: 100%; max-width: 700px; margin: 50px auto; padding: 40px 60px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
 .form-group { display: flex; flex-direction: column; margin-bottom: 25px; }
 .form-group label { color: #0c4a86; font-weight: 600; font-size: 18px; margin-bottom: 10px; }

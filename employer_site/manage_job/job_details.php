@@ -21,7 +21,7 @@ $total_posts = $conn->query("SELECT COUNT(*) as total FROM job WHERE user_id = $
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-/* SCOPED CSS - Only affects elements inside .job-details-scope */
+
 .job-details-scope { 
     background-color: #e9ecef; 
     font-family: 'Segoe UI', Arial, sans-serif; 
@@ -68,7 +68,6 @@ $total_posts = $conn->query("SELECT COUNT(*) as total FROM job WHERE user_id = $
     font-size: 14px; margin-bottom: 10px;
 }
 
-/* Bullet list styling to match screenshot */
 .job-details-scope .bullet-list {
     padding-left: 20px;
     margin: 10px 0 20px 0;
