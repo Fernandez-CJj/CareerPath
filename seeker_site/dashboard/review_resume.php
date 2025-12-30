@@ -102,7 +102,7 @@ $resume_id = $_GET['id'];
   </div>
 
   <div class="generate-resume-button">
-    <button class="gr-button">GENERATE RESUME</button>
+    <button class="gr-button" onclick="window.location.href='generate_resume.php?id=<?php echo $resume_id; ?>'">GENERATE RESUME</button>
   </div>
 
   <div class="spacing"></div>
