@@ -3,7 +3,7 @@ session_start();
 include "../../config.php";
 include "../header_employer/applicationReceived.html"; 
 
-// Assume the logged-in employer ID is stored in the session
+
 $employer_id = $_SESSION['user_id']; 
 ?>
 
@@ -76,7 +76,7 @@ $employer_id = $_SESSION['user_id'];
         </thead>
         <tbody>
             <?php
-            // Fetch applications for this employer
+
             $sql = "SELECT a.id, a.status, a.created_at, u.username, j.job_title 
                     FROM applications a
                     JOIN users u ON a.seeker_id = u.id
@@ -96,7 +96,7 @@ $employer_id = $_SESSION['user_id'];
                     echo "<tr onclick=\"location.href='application_detail.php?id={$row['id']}'\">
                             <td>
                                 <div class='applicant-info'>
-                                    <div class='avatar'></div>
+                                   
                                     <span>" . htmlspecialchars($row['username']) . "</span>
                                 </div>
                             </td>
