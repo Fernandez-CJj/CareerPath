@@ -50,9 +50,10 @@
 
 <div class="modal" id="postSuccessModal">
     <div class="modal-box">
-        <h3 style="color: #0c4a86;">Job Posted!</h3>
-        <p>Your job ad has been successfully created.</p>
-        <button class="btn-primary" onclick="window.location.href='../manage_job/manage_job.php'" style="width: 100%; margin-top: 20px;">View Manage Jobs</button>
+        <h3 style="color: #0c4a86;">Application Sent!</h3>
+        <p>Your job post has been sent to the <strong>Admin for approval</strong>.</p>
+        <p style="font-size: 14px; color: #666;">You will be notified once the status changes.</p>
+        <button class="btn-primary" onclick="window.location.href='../manage_job/manage_job.php'" style="width: 100%; margin-top: 20px;">Check Status</button>
     </div>
 </div>
 

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - CareerPath</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 50px;
+      height: 90px;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .left-section img {
+      height: 65px;
+      width: auto;
+    }
+
+    .mid-section {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* Standard Nav Links for Admin */
+    .nav-link {
+      color: #0c4a86;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      padding: 10px 15px;
+    }
+
+    .nav-link:hover {
+      color: #1565c0;
+    }
+
+    /* Active State Button (Blue background as seen in screenshot) */
+    .active-nav-container {
+      padding: 15px 35px;
+      background-color: #0c4a86;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-section {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .sign-out-container {
+      padding: 12px 30px;
+      background-color: #dd3030;
+      color: white;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .sign-out-container:hover {
+      opacity: 0.85;
+    }
+
+    /* Empty space to match layout if needed, or for additional buttons */
+    .spacer {
+      width: 100px;
+    }
+
+    @media (max-width: 1200px) {
+      .header {
+        padding: 0 20px;
+      }
+
+      .mid-section {
+        gap: 15px;
+      }
+
+      .nav-link,
+      .active-nav-container {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="left-section" onclick="location.href='/CAREERPATH/admin/active_posting/active_posting.php'">
+      <img src="/CAREERPATH/assets/images/logo.png" alt="CareerPath Logo" />
+    </div>
+
+    <div class="mid-section">
+      <div class="active-nav-container" onclick="location.href='/CAREERPATH/admin/job_approvals/job_approvals.php'">
+        Job Approvals
+      </div>
+
+      <div class="nav-link" onclick="location.href='/CAREERPATH/admin/user_management/user_management.php'">
+        User Management
+      </div>
+
+      <div class="nav-link" onclick="location.href='/CAREERPATH/admin/active_posting/active_posting.php'">
+        Active Posting
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="spacer"></div>
+
+      <div class="sign-out-container"
+        onclick="location.href='/CAREERPATH/employer_site/login_modules_employer/logout.php'">
+        SIGN OUT
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

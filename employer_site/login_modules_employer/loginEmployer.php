@@ -1,4 +1,4 @@
-<?php 
+<?php
 include "../../config.php";
 
 session_start();
@@ -6,30 +6,40 @@ session_start();
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = strtolower(trim($_POST['email']));
-  $password = $_POST['password'];
+    $email = strtolower(trim($_POST['email']));
+    $password = $_POST['password'];
 
-  $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-  if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
 
-    // Plain-text for now (same as seeker)
-    if ($row['password'] === $password) {
-      $_SESSION['user_id'] = $row['id'];
-      $_SESSION['username'] = $row['username'];
+        if ($row['password'] === $password) {
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            
+            // Capture user type to handle redirection
+            $user_type = trim($row['type_of_user']);
+            $_SESSION['type_of_user'] = $user_type;
 
-      header("Location: ../company_profile/company_profile.php");
-      exit;
+            // REDIRECT LOGIC
+            if ($user_type === 'admin') {
+                // Up 2 levels to root, then into admin/job_approvals
+                header("Location: ../../admin/job_approvals/job_approvals.php");
+            } else {
+                // Up 1 level to employer_site, then into company_profile
+                header("Location: ../company_profile/company_profile.php");
+            }
+            exit;
+        } else {
+            $message = "Invalid email or password";
+        }
     } else {
-      $message = "Invalid email or password";
+        $message = "Invalid email or password";
     }
-  } else {
-    $message = "Invalid email or password";
-  }
 }
 ?>
 
@@ -42,9 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <style>
     body {
-
-  background-color: white;
-}
+      background-color: white;
+    }
   </style>
 </head>
 
@@ -56,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <img src="../../assets/images/login-image.png">
       <p class="slogan">
        “Your smart companion for building professional resumes and  <span class="highlight">discovering</span> job opportunities tailored to your skills and goals.”
-        
+       
       </p>
     </div>
 
@@ -69,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="label">Password</div>
       <input type="password" name="password" class="input-field" placeholder="Enter your password" required>
 
-      <!-- ⚠ ERROR MESSAGE -->
+
       <?php if (!empty($message)): ?>
         <div class="message"><?= $message ?></div>
       <?php endif; ?>
