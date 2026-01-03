@@ -8,16 +8,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = strtolower(trim($_POST['email']));
   $password = $_POST['password'];
 
-  $sql = "SELECT * FROM users";
+  $sql = "SELECT * FROM users WHERE email = '" . mysqli_real_escape_string($conn, $email) . "'";
 
   $result = mysqli_query($conn, $sql);
-  while ($row = mysqli_fetch_assoc($result)) {
-    if ($row['email'] == $email && $row['password'] == $password) {
-      $_SESSION['seeker_id'] = $row['id'];
-      header('Location: ../dashboard/dashboard.php');
+
+  if ($row = mysqli_fetch_assoc($result)) {
+    if ($row['password'] == $password) {
+      // Admin shortcut
+      if ($email === 'admin@careerpath.com' && $password === 'admin123') {
+        header('Location: ../../admin/job_approvals/job_approvals.php');
+        exit();
+      }
+
+      $user_type = trim(strtolower($row['type_of_user'] ?? ''));
+
+      if ($user_type !== 'seeker') {
+        $message = 'only job seekers can sign in here';
+      } else {
+        $_SESSION['seeker_id'] = $row['id'];
+        header('Location: ../dashboard/dashboard.php');
+        exit();
+      }
     } else {
       $message = 'invalid email or password';
     }
+  } else {
+    $message = 'invalid email or password';
   }
 }
 

@@ -1,6 +1,6 @@
 <?php
-include('../header/jobSearchHeader.html');
-include('../../config.php');
+include "../header_admin/header_active_posting.html";
+include "../../config.php";
 
 $sql = "SELECT * FROM job WHERE status='active'";
 $conditions = ["status='active'"];
