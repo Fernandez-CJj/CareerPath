@@ -2,7 +2,7 @@
 include('../header/jobSearchHeader.html');
 include('../../config.php');
 
-$sql = "SELECT * FROM job WHERE status='active'";
+$sql = "SELECT * FROM job WHERE status='active' ORDER BY date_posted DESC";
 $conditions = ["status='active'"];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conditions[] = "type_of_work LIKE '%$job_type%'";
   }
 
-  $sql = "SELECT * FROM job WHERE " . implode(" AND ", $conditions);
+  $sql = "SELECT * FROM job WHERE " . implode(" AND ", $conditions) . " ORDER BY date_posted DESC";
 }
 ?>
 
