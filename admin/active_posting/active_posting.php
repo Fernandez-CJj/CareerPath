@@ -1,6 +1,6 @@
 <?php
 include "../header_admin/header_active_posting.html";
-include('../../config.php');
+include "../../config.php";
 
 // Pagination setup
 $perPage = 10;
@@ -8,34 +8,41 @@ $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $perPage;
 
 $conditions = ["status='active'"];
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $position = mysqli_real_escape_string($conn, $_POST['search-position'] ?? '');
-  $location = mysqli_real_escape_string($conn, $_POST['search-location'] ?? '');
-  $skill = mysqli_real_escape_string($conn, $_POST['search-skills'] ?? '');
-  $job_type = mysqli_real_escape_string($conn, $_POST['job-type'] ?? '');
 
-  if (!empty($position)) {
-    $conditions[] = "job_title LIKE '%$position%'";
-  }
-  if (!empty($location)) {
-    $conditions[] = "location LIKE '%$location%'";
-  }
-  if (!empty($skill)) {
-    $conditions[] = "skills_requirements LIKE '%$skill%'";
-  }
-  if (!empty($job_type) && $job_type != 'any') {
-    $conditions[] = "type_of_work LIKE '%$job_type%'";
-  }
+// Filters via query string to keep them on pagination
+$positionRaw = $_GET['search-position'] ?? '';
+$locationRaw = $_GET['search-location'] ?? '';
+$skillRaw = $_GET['search-skills'] ?? '';
+$jobTypeRaw = $_GET['job-type'] ?? '';
+
+$position = mysqli_real_escape_string($conn, $positionRaw);
+$location = mysqli_real_escape_string($conn, $locationRaw);
+$skill = mysqli_real_escape_string($conn, $skillRaw);
+$job_type = mysqli_real_escape_string($conn, $jobTypeRaw);
+
+if (!empty($position)) {
+  $conditions[] = "job_title LIKE '%$position%'";
 }
-$where = implode(' AND ', $conditions);
+if (!empty($location)) {
+  $conditions[] = "location LIKE '%$location%'";
+}
+if (!empty($skill)) {
+  $conditions[] = "skills_requirements LIKE '%$skill%'";
+}
+if (!empty($job_type) && $job_type !== 'any') {
+  $conditions[] = "type_of_work LIKE '%$job_type%'";
+}
+
+$whereClause = implode(' AND ', $conditions);
 
 // Get total count for pagination
-$countSql = "SELECT COUNT(*) as total FROM job WHERE $where";
+$countSql = "SELECT COUNT(*) AS total FROM job WHERE $whereClause";
 $countResult = mysqli_query($conn, $countSql);
 $totalRows = $countResult ? (int)mysqli_fetch_assoc($countResult)['total'] : 0;
 
 // Main query with LIMIT/OFFSET
-$sql = "SELECT * FROM job WHERE $where ORDER BY date_posted DESC LIMIT $perPage OFFSET $offset";
+$sql = "SELECT * FROM job WHERE $whereClause ORDER BY date_posted DESC LIMIT $perPage OFFSET $offset";
+$result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
