@@ -1076,17 +1076,17 @@
         document.getElementById('enhancedOverview1Input').value = overviewLi ? overviewLi.textContent.trim() : '';
       }
 
-      // Key Responsibilities 1 - implode with | separator
-      const keyResp1Elements = document.querySelectorAll(templateClass + ' .responsibility');
-      if (keyResp1Elements.length > 0) {
-        const keyResp1Array = Array.from(keyResp1Elements).slice(0, 3).map(el => el.textContent.trim());
-        document.getElementById('enhancedKeyResponsibilities1Input').value = keyResp1Array.join('|');
-      }
+      // Group responsibilities and achievements by career history containers
+      const careerHistory1 = document.querySelector(templateClass + ' .career-history');
+      const careerHistory2 = document.querySelector(templateClass + ' .career-history-2');
 
-      // Achievements 1 - implode with | separator
-      const ach1Elements = document.querySelectorAll(templateClass + ' .achievement');
-      if (ach1Elements.length > 0) {
-        const ach1Array = Array.from(ach1Elements).slice(0, 3).map(el => el.textContent.trim());
+      if (careerHistory1) {
+        // First job
+        const resp1 = careerHistory1.querySelectorAll('.responsibility');
+        const keyResp1Array = Array.from(resp1).map(el => el.textContent.trim());
+        document.getElementById('enhancedKeyResponsibilities1Input').value = keyResp1Array.join('|');
+        const ach1 = careerHistory1.querySelectorAll('.achievement');
+        const ach1Array = Array.from(ach1).map(el => el.textContent.trim());
         document.getElementById('enhancedAchievements1Input').value = ach1Array.join('|');
       }
 
@@ -1099,15 +1099,13 @@
         document.getElementById('enhancedOverview2Input').value = overviewLi ? overviewLi.textContent.trim() : '';
       }
 
-      // Key Responsibilities 2 - implode with | separator  
-      if (keyResp1Elements.length > 3) {
-        const keyResp2Array = Array.from(keyResp1Elements).slice(3, 6).map(el => el.textContent.trim());
+      if (careerHistory2) {
+        // Second job
+        const resp2 = careerHistory2.querySelectorAll('.responsibility');
+        const keyResp2Array = Array.from(resp2).map(el => el.textContent.trim());
         document.getElementById('enhancedKeyResponsibilities2Input').value = keyResp2Array.join('|');
-      }
-
-      // Achievements 2 - implode with | separator
-      if (ach1Elements.length > 3) {
-        const ach2Array = Array.from(ach1Elements).slice(3, 6).map(el => el.textContent.trim());
+        const ach2 = careerHistory2.querySelectorAll('.achievement');
+        const ach2Array = Array.from(ach2).map(el => el.textContent.trim());
         document.getElementById('enhancedAchievements2Input').value = ach2Array.join('|');
       }
 

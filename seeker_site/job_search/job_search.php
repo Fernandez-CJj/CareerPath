@@ -2,9 +2,12 @@
 include('../header/jobSearchHeader.html');
 include('../../config.php');
 
-$sql = "SELECT * FROM job WHERE status='active' ORDER BY date_posted DESC";
-$conditions = ["status='active'"];
+// Pagination setup
+$perPage = 10;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $perPage;
 
+$conditions = ["status='active'"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $position = mysqli_real_escape_string($conn, $_POST['search-position'] ?? '');
   $location = mysqli_real_escape_string($conn, $_POST['search-location'] ?? '');
@@ -14,23 +17,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($position)) {
     $conditions[] = "job_title LIKE '%$position%'";
   }
-
   if (!empty($location)) {
     $conditions[] = "location LIKE '%$location%'";
   }
-
   if (!empty($skill)) {
     $conditions[] = "skills_requirements LIKE '%$skill%'";
   }
-
   if (!empty($job_type) && $job_type != 'any') {
     $conditions[] = "type_of_work LIKE '%$job_type%'";
   }
-
-  $sql = "SELECT * FROM job WHERE " . implode(" AND ", $conditions) . " ORDER BY date_posted DESC";
 }
-?>
+$where = implode(' AND ', $conditions);
 
+// Get total count for pagination
+$countSql = "SELECT COUNT(*) as total FROM job WHERE $where";
+$countResult = mysqli_query($conn, $countSql);
+$totalRows = $countResult ? (int)mysqli_fetch_assoc($countResult)['total'] : 0;
+
+// Main query with LIMIT/OFFSET
+$sql = "SELECT * FROM job WHERE $where ORDER BY date_posted DESC LIMIT $perPage OFFSET $offset";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,30 +90,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </label>
         </div>
         <button class="result-button">RESULT</button>
-
       </div>
   </form>
   <div class='body-right-section'>
     <?php
-    include('../../config.php');
     $result = mysqli_query($conn, $sql);
-
-    while ($row = mysqli_fetch_assoc($result)) {
+    $shownCount = 0;
+    $jobs = [];
+    while ($result && $row = mysqli_fetch_assoc($result)) {
+      $jobs[] = $row;
+    }
+    $shownCount = count($jobs);
+    echo "<div style='margin-bottom:20px;font-weight:bold;'>Showing $shownCount out of $totalRows jobs</div>";
+    foreach ($jobs as $row) {
       $job_id = $row['job_id'];
       $date = date('F d, Y', strtotime($row['date_posted']));
-      echo "<div class='job-container' onclick=\"window.location.href='view_job.php?id={$job_id}'\">
-    <div class='job-position-type-container'>
-      <div class='job-position'>{$row['job_title']}</div>
-      <button class='job-type'>{$row['type_of_work']}</button>
-    </div>
-    <div class='location'>{$row['location']}</div>
-    <div class='employer-details-container'>
-      <div class='employer-name'>{$row['contact_person']} -</div>
-      <div class='posted-on'>posted on $date</div>
-    </div>
-    <div class='salary'>₱{$row['salary']}/month</div>
-    <div class='description'>{$row['job_overview']}</div>
-    <div class='skills-container'>";
+      echo "<div class='job-container' onclick=\"window.location.href='view_job.php?id={$job_id}'\">";
+      echo "<div class='job-position-type-container'>";
+      echo "<div class='job-position'>{$row['job_title']}</div>";
+      echo "<button class='job-type'>{$row['type_of_work']}</button>";
+      echo "</div>";
+      echo "<div class='location'>{$row['location']}</div>";
+      echo "<div class='employer-details-container'>";
+      echo "<div class='employer-name'>{$row['contact_person']} -</div>";
+      echo "<div class='posted-on'>posted on $date</div>";
+      echo "</div>";
+      echo "<div class='salary'>₱{$row['salary']}/month</div>";
+      echo "<div class='description'>{$row['job_overview']}</div>";
+      echo "<div class='skills-container'>";
       $skills = explode('|', $row['skills_requirements']);
       foreach ($skills as $skill) {
         $skill = trim($skill);
@@ -115,9 +125,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           echo "<button class='skill'>" . htmlspecialchars($skill) . "</button>";
         }
       }
-      echo "</div>
-      </div>";
+      echo "</div></div>";
     }
+    // Pagination controls
+    $nextPage = $page + 1;
+    $hasNext = ($offset + $perPage) < $totalRows;
+    echo "<div class='pagination'>";
+    if ($page > 1) {
+      $prevPage = $page - 1;
+      echo "<a href='?page=$prevPage' class='page-link'>Previous</a>";
+    }
+    if ($hasNext) {
+      echo "<a href='?page=$nextPage' class='page-link'>Next</a>";
+    }
+    echo "</div>";
     ?>
   </div>
   </div>
