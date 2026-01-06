@@ -55,7 +55,7 @@ $result = mysqli_query($conn, $sql);
 </head>
 
 <body>
-  <form action="" method="post">
+  <form action="" method="get">
     <div class="search-container">
       <div class="search-position-container">
         <input type="text" name="search-position" class="search-position" placeholder="Search for a job title or company">
