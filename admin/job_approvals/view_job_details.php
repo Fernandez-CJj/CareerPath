@@ -12,26 +12,134 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $job = $stmt->get_result()->fetch_assoc();
 
-if (!$job) { echo "Job not found."; exit; }
+if (!$job) {
+    echo "Job not found.";
+    exit;
+}
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-    :root { --primary-blue: #0c4a86; --bg-gray: #f4f7f6; }
-    body { background-color: var(--bg-gray); font-family: 'Segoe UI', sans-serif; margin: 0; }
-    .details-banner { background: var(--primary-blue); color: white; padding: 80px 20px; text-align: center; }
-    .details-container { max-width: 950px; margin: -50px auto 50px auto; padding: 0 20px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 30px; }
-    .stat-item { text-align: center; border-right: 1px solid #eee; display: flex; align-items: center; justify-content: center; gap: 12px; }
-    .stat-item:last-child { border-right: none; }
-    .stat-icon { width: 40px; height: 40px; background: var(--primary-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
-    .stat-label { font-size: 10px; text-transform: uppercase; color: #999; font-weight: bold; display: block; text-align: left; }
-    .stat-value { font-weight: bold; color: #222; font-size: 14px; text-align: left; }
-    .detail-card { background: white; border-radius: 8px; margin-bottom: 25px; border: 1px solid #dee2e6; overflow: hidden; }
-    .detail-card h3 { background: #f8f9fa; border-bottom: 1px solid #eee; padding: 15px 25px; margin: 0; font-size: 14px; color: #333; display: flex; align-items: center; gap: 10px; }
-    .detail-card-body { padding: 25px; line-height: 1.8; color: #555; }
-    .skill-btn { background-color: var(--primary-blue); color: white; padding: 8px 20px; border-radius: 4px; border: none; margin: 0 10px 10px 0; }
-    .btn-back { padding: 12px 30px; border: 2px solid var(--primary-blue); background: white; color: var(--primary-blue); border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+    :root {
+        --primary-blue: #0c4a86;
+        --bg-gray: #f4f7f6;
+    }
+
+    body {
+        background-color: var(--bg-gray);
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+    }
+
+    .details-banner {
+        background: var(--primary-blue);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .details-container {
+        max-width: 950px;
+        margin: -50px auto 50px auto;
+        padding: 0 20px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .stat-item {
+        text-align: center;
+        border-right: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .stat-item:last-child {
+        border-right: none;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .stat-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+        font-weight: bold;
+        display: block;
+        text-align: left;
+    }
+
+    .stat-value {
+        font-weight: bold;
+        color: #222;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border: 1px solid #dee2e6;
+        overflow: hidden;
+    }
+
+    .detail-card h3 {
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        padding: 15px 25px;
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .detail-card-body {
+        padding: 25px;
+        line-height: 1.8;
+        color: #555;
+    }
+
+    .skill-btn {
+        background-color: var(--primary-blue);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 4px;
+        border: none;
+        margin: 0 10px 10px 0;
+    }
+
+    .btn-back {
+        padding: 12px 30px;
+        border: 2px solid var(--primary-blue);
+        background: white;
+        color: var(--primary-blue);
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+    }
 </style>
 
 <div class="details-banner">
@@ -66,9 +174,9 @@ if (!$job) { echo "Job not found."; exit; }
     <div class="detail-card">
         <h3><i class="fas fa-tasks"></i> SKILL REQUIREMENT</h3>
         <div class="detail-card-body">
-            <?php 
-            $skills = explode(',', $job['skills_requirements']);
-            foreach($skills as $s) if(trim($s)) echo "<button class='skill-btn'>".htmlspecialchars(trim($s))."</button>";
+            <?php
+            $skills = explode('|', $job['skills_requirements']);
+            foreach ($skills as $s) if (trim($s)) echo "<button class='skill-btn'>" . htmlspecialchars(trim($s)) . "</button>";
             ?>
         </div>
     </div>
